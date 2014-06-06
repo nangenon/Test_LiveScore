@@ -19,7 +19,8 @@
 var app = {
     // Application Constructor
     initialize: function() {
-        this.bindEvents();
+		  this.renderHome();
+//        this.bindEvents();
     },
     // Bind Event Listeners
     //
@@ -44,17 +45,28 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
         console.log('Received Event: ' + id);
-		$.getJSON( "http://livescore.creaweb.fr:8000/table1.json", function( data ) {
-			var obj = jQuery.parseJSON( data );
-			$( ".joueur1_name" ).html( obj.joueur1_name );
-			$( ".joueur1_country" ).html( obj.joueur1_country );
-			$( ".joueur2_name" ).html( obj.joueur2_name );
-			$( ".joueur2_country" ).html( obj.joueur2_country );
 			
-
-			
-		});
+    },
+	// Update DOM on a Received Event
+	renderHome: function() {
+	$.ajax({
+		type: 'GET',
+		url : "http://livescore.creaweb.fr:8000/table1.json", 
+		crossDomain: true,
+//		beforeSend: function () {$.mobile.loading('show')},
+//		complete: function () {$.mobile.loading('hide')},
+		dataType : 'json',
+		success : function( data ) {
+			alert( data.Joueur1_name );
+			$( ".joueur1_name" ).html( data.Joueur1_name );
+			$( ".joueur1_country" ).html( data.Joueur1_country );
+			$( ".joueur2_name" ).html( data.Joueur2_name );
+			$( ".joueur2_country" ).html( data.Joueur2_country ); 	
+		}
 		
+	});
 		
-    }
+}
 };
+
+
